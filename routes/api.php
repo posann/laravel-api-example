@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // http://localhost:8000/api/mahasantri
 Route::apiResource('mahasantri', MahasantriController::class);
 
+
 // http://localhost:8000/api/jurusan
 Route::apiResource('jurusan', JurusanController::class);
 
