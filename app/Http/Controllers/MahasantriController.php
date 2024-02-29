@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mahasantri;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MahasantriController extends Controller
 {
@@ -42,7 +43,28 @@ class MahasantriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // DIGUNAKAN UNTUK MENAMBAHKAN DATA MAHASANTRI BARU
+        $validator = Validator::make($request->all(), [
+            'nama_mhs' => 'required|string|max:64',
+            'alamat_mhs' => 'required|string',
+            'umur_mhs' => 'required|integer',
+            'id_jrs' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            $fails = [
+                "message" => "Gagal Menambahkan Data Mahasantri",
+                "data" => $validator->errors()
+            ];
+            return response()->json($fails, 400);
+        } else {
+            $mhs = Mahasantri::create($request->all());
+            $success = [
+                "message" => "Data Mahasantri Berhasil Ditambahkan",
+                "data" => $mhs
+            ];
+            return response()->json($success, 200);
+        }
     }
 
     /**
